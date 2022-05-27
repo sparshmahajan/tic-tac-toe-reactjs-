@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./Components/Header/Header";
+import Main from "./Components/Main/Main";
+import FrontModal from "./Components/modal/FrontModal";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { changeTurn } from "./Components/store/turnSlice";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:5000");
 
 function App() {
+  const [showModal, setShowModal] = useState(true);
+  const [roomCode, setRoomCode] = useState(null);
+  const [canPlay, setCanPlay] = useState(false);
+  const [ch, setCh] = useState(null);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.on('firstPlayerJoin', (roomCode) => {
+      setRoomCode(roomCode);
+      setCanPlay(true);
+      dispatch(changeTurn());
+    })
+
+    socket.on('secondPlayerJoin', () => {
+      setShowModal(false);
+    });
+
+  }, [dispatch, setRoomCode, setCanPlay, setShowModal]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {showModal && <FrontModal socket={socket} roomCode={roomCode} setRoomCode={setRoomCode} setShowModal={setShowModal} setCh={setCh} />}
+      <Header />
+      <Main socket={socket} roomCode={roomCode} ch={ch} canPlay={canPlay} setCanPlay={setCanPlay} />
+    </>
   );
 }
 
