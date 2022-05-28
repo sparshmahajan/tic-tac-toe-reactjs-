@@ -2,7 +2,7 @@ import Header from "./Components/Header/Header";
 import Main from "./Components/Main/Main";
 import FrontModal from "./Components/modal/FrontModal";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeTurn } from "./Components/store/turnSlice";
 import io from "socket.io-client";
 
@@ -15,6 +15,7 @@ function App() {
   const [ch, setCh] = useState(null);
 
   const dispatch = useDispatch();
+  const isGameActive = useSelector(state => state.isGameActive);
 
   useEffect(() => {
     socket.on('firstPlayerJoin', (roomCode) => {
@@ -31,8 +32,12 @@ function App() {
 
   return (
     <>
-      {showModal && <FrontModal socket={socket} roomCode={roomCode} setRoomCode={setRoomCode} setShowModal={setShowModal} setCh={setCh} />}
-      <Header />
+      {isGameActive &&
+        <>
+          {showModal && <FrontModal socket={socket} roomCode={roomCode} setRoomCode={setRoomCode} setShowModal={setShowModal} setCh={setCh} />}
+          <Header />
+        </>
+      }
       <Main socket={socket} roomCode={roomCode} ch={ch} canPlay={canPlay} setCanPlay={setCanPlay} />
     </>
   );

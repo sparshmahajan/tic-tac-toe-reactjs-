@@ -26,16 +26,14 @@ const FrontModal = ({ socket, roomCode, setRoomCode, setCh }) => {
 
     const [joinRoomModal, setJoinRoomModal] = useState(false);
     const [createRoomModal, setCreateRoomModal] = useState(false);
-    const [roomCodeInput, setRoomCodeInput] = useState(null);
 
     const handleSave = () => {
         socket.emit("joinRoom", roomCode);
-        setRoomCode(roomCodeInput);
     };
 
     const handleJoinRoom = () => {
-        setCh('O');
         setJoinRoomModal(true);
+        setCh('O');
     }
 
     const handleCreateRoom = () => {
@@ -79,7 +77,7 @@ const FrontModal = ({ socket, roomCode, setRoomCode, setCh }) => {
                             className="joinRoomModal-card-input"
                             type="text"
                             placeholder="eg: 1212"
-                            onChange={(e) => setRoomCodeInput(e.target.value)}
+                            onChange={(e) => setRoomCode(e.target.value)}
                         />
                         <button onClick={handleSave} className="joinRoomModal-card-button">
                             Save

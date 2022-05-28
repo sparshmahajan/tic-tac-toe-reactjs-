@@ -51,6 +51,7 @@
     padding: 1rem;
     border-radius: 16px;
     color: var(--secondary-color);
+    width: 100%;
 }
 
 .joinRoomModal-card-button {
@@ -66,14 +67,9 @@
     cursor: pointer;
 }
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
+@media screen and (max-width: 768px) {
+    .joinRoomModal-card-button {
+        font-size: 2rem;
+        padding: 1rem 2rem;
+    }
 }
