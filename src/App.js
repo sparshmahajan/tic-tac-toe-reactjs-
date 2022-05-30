@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeTurn } from "./Components/store/turnSlice";
 import io from "socket.io-client";
 
-const socket = io.connect("https://lime-happy-hatchling.cyclic.app");
+const socket = io.connect("https://tic-tac-toe-backend1.herokuapp.com");
 
 function App() {
   const [showModal, setShowModal] = useState(true);
